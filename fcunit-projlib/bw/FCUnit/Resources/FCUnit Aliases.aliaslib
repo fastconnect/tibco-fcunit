@@ -44,7 +44,7 @@
     &lt;/void&gt; 
     &lt;void method="put"&gt; 
      &lt;string&gt;name&lt;/string&gt; 
-     &lt;string&gt;fr.fastconnect.factory.tibco.bw.maven:fcunit-core:${project.version}:jar&lt;/string&gt; 
+     &lt;string&gt;fr.fastconnect.factory.tibco.bw.fcunit:fcunit-core:${project.version}:jar&lt;/string&gt; 
     &lt;/void&gt; 
     &lt;void method="put"&gt; 
      &lt;string&gt;includeInDeployment&lt;/string&gt; 
