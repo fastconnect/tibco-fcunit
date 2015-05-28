@@ -91,6 +91,18 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="assert-not-match-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="string" type="xs:string"/>
+						<xs:element name="pattern" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="assert-subset-error">
 		<xs:complexType>
 			<xs:complexContent>
