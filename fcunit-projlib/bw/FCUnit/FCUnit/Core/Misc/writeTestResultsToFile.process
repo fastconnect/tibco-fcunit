@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:ns4="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:ns="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions" xmlns:pfx2="http://fastconnect.fr/fcunit-abstract" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:ns4="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions" xmlns:pfx2="http://fastconnect.fr/fcunit-abstract" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
     <xsd:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
     <wsdl:import namespace="http://fastconnect.fr/fcunit-abstract" location="/FCUnit/WSDLs/FCUnit-abstract.wsdl"/>
     <pd:name>FCUnit/Core/Misc/writeTestResultsToFile.process</pd:name>
@@ -206,14 +206,14 @@
             <compressFile>None</compressFile>
         </config>
         <pd:inputBindings>
-            <ns1:WriteActivityInputTextClass xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file">
+            <ns2:WriteActivityInputTextClass>
                 <fileName>
                     <xsl:value-of select="concat($Set-Export-Directory/export-directory, '/results.html')"/>
                 </fileName>
                 <textContent>
                     <xsl:value-of select="$JUnit-to-HTML/xmlString"/>
                 </textContent>
-            </ns1:WriteActivityInputTextClass>
+            </ns2:WriteActivityInputTextClass>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="Write Result to File">

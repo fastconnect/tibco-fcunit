@@ -17,7 +17,7 @@
  |     You should have received a copy of the GNU General Public License
  |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://fastconnect.fr/fcunit.xsd" xmlns:tns="http://fastconnect.fr/fcunit-abstract" xmlns:ns2="http://ws-i.org/profiles/basic/1.1/xsd" targetNamespace="http://fastconnect.fr/fcunit-abstract" name="FCUnit">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns2="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:ns="http://fastconnect.fr/fcunit.xsd" xmlns:tns="http://fastconnect.fr/fcunit-abstract" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://fastconnect.fr/fcunit-abstract" name="FCUnit">
     <documentation>Version 0.1</documentation>
     <import namespace="http://fastconnect.fr/fcunit.xsd" location="../Schemas/FCUnitSchema.xsd"/>
     <!--<import namespace="http://ws-i.org/profiles/basic/1.1/xsd"/>-->

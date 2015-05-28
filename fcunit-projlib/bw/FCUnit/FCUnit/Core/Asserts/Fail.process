@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:ns1="com/tibco/pe/commands" xmlns:pfx5="http://fastconnect.fr/fcunit-errors.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx4="http://fastconnect.fr/fcunit-asserts.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns2="http://www.tibco.com/pe/EngineTypes" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:fcu="java://fr.fastconnect.tibco.businessworks.fcunit.CustomFunctions">
-<!--
- |     Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
- |
- |     This file is part of FCUnit
- |
- |     FCUnit is free software: you can redistribute it and/or modify
- |     it under the terms of the GNU General Public License as published by
- |     the Free Software Foundation, either version 3 of the License, or
- |     (at your option) any later version.
- |
- |     FCUnit is distributed in the hope that it will be useful,
- |     but WITHOUT ANY WARRANTY; without even the implied warranty of
- |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- |     GNU General Public License for more details.
- |
- |     You should have received a copy of the GNU General Public License
- |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/EngineTypes" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="com/tibco/pe/commands" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:fcu="java://fr.fastconnect.tibco.businessworks.fcunit.CustomFunctions" xmlns:pfx5="http://fastconnect.fr/fcunit-errors.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://fastconnect.fr/fcunit-asserts.xsd">
     <xsd:import namespace="http://fastconnect.fr/fcunit-asserts.xsd" schemaLocation="/FCUnit/Schemas/FCUnitAssertsSchema.xsd"/>
     <xsd:import namespace="http://fastconnect.fr/fcunit-errors.xsd" schemaLocation="/FCUnit/Schemas/FCUnitErrorsSchema.xsd"/>
     <pd:name>FCUnit/Core/Asserts/Fail.process</pd:name>

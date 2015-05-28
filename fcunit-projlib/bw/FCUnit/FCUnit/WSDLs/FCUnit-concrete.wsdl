@@ -17,10 +17,10 @@
  |     You should have received a copy of the GNU General Public License
  |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://fastconnect.fr/fcunit-concrete" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns0="http://fastconnect.fr/fcunit.xsd" name="Untitled" targetNamespace="http://fastconnect.fr/fcunit-concrete">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://fastconnect.fr/fcunit-concrete" xmlns:ns0="http://fastconnect.fr/fcunit.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="Untitled" targetNamespace="http://fastconnect.fr/fcunit-concrete">
     <wsdl:documentation>Version 0.1</wsdl:documentation>
     <wsdl:types>
-        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcu="http://fastconnect.fr/fcunit.xsd" targetNamespace="http://fastconnect.fr/fcunit.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+        <xs:schema xmlns:fcu="http://fastconnect.fr/fcunit.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://fastconnect.fr/fcunit.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
             <xs:complexType name="anydata">
                 <xs:sequence>
                     <xs:any minOccurs="0" processContents="skip" namespace="##any"/>
