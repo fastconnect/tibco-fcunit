@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns2="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:ns="http://fastconnect.fr/fcunit.xsd" xmlns:tns="http://fastconnect.fr/fcunit-abstract" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://fastconnect.fr/fcunit-abstract" name="FCUnit">
+    <documentation>Version 0.1</documentation>
+    <import namespace="http://fastconnect.fr/fcunit.xsd" location="../Schemas/FCUnitSchema.xsd"/>
+    <!--<import namespace="http://ws-i.org/profiles/basic/1.1/xsd"/>-->
+    <message name="test-suites-msg">
+        <part name="test-suites" element="ns:test-suites"/>
+    </message>
+    <message name="settings-msg">
+        <part name="settings" element="ns:settings"/>
+    </message>
+    <message name="test-suites-results-msg">
+        <part name="test-suites-results" element="ns:test-suites-results"/>
+    </message>
+    <message name="null-msg">
+        <part name="null" element="ns:empty"/>
+    </message>
+    <portType name="FCUnit">
+        <operation name="getTestSuites">
+            <input message="tns:settings-msg"/>
+            <output message="tns:test-suites-msg"/>
+        </operation>
+        <operation name="runAllTests">
+            <input message="tns:settings-msg"/>
+            <output message="tns:test-suites-results-msg"/>
+        </operation>
+        <operation name="stopEngine">
+            <input message="tns:null-msg"/>
+            <output message="tns:null-msg"/>
+        </operation>
+        <operation name="isStarted">
+            <input message="tns:null-msg"/>
+            <output message="tns:null-msg"/>
+        </operation>
+    </portType>
+</definitions>

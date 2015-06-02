@@ -17,9 +17,11 @@
 package fr.fastconnect.tibco.businessworks.fcunit;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
-import fr.fastconnect.tibco.businessworks.fcunit.processes.TestProcess;
+import fr.fastconnect.tibco.businessworks.fcunit.resources.BWProcess;
+import fr.fastconnect.tibco.businessworks.fcunit.resources.BWResource;
 
 /**
  * Une classe qui modélise un TestCase, donc une liste de {@link TestProcess} contenus dans le TestCase.
@@ -30,7 +32,8 @@ import fr.fastconnect.tibco.businessworks.fcunit.processes.TestProcess;
 public class TestCase extends BWResource implements Serializable {
 
 	private static final long serialVersionUID = -5129492488357372228L;
-	private HashSet<TestProcess> tests = new HashSet<TestProcess>();
+
+	private List<BWProcess> tests = new ArrayList<BWProcess>();
 
 	/**
 	 * Création via {@link BWResource}
@@ -48,14 +51,14 @@ public class TestCase extends BWResource implements Serializable {
 	 * @param process
 	 */
 	public void addProcess(String process) {
-		this.tests.add(new TestProcess(process));
+		this.tests.add(new BWProcess(process));
 	}
 
 	/**
 	 * 
 	 * @return la liste des {@link TestProcess} sous forme d'array
 	 */
-	public TestProcess[] getTests() {
-		return ((TestProcess[]) this.tests.toArray(new TestProcess[0]));
+	public BWProcess[] getTests() {
+		return ((BWProcess[]) this.tests.toArray(new BWProcess[0]));
 	}
 }

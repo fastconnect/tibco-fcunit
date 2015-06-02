@@ -16,19 +16,48 @@
  */
 package fr.fastconnect.tibco.businessworks.fcunit.processes;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.Serializable;
-import java.util.HashSet;
 
-public class TestProcessFactory implements AbstractProcessFactory, Serializable {
+import fr.fastconnect.tibco.businessworks.fcunit.resources.BWProcess;
+
+public class TestProcessFactory implements AbstractBWResourceFactory<BWProcess>, Serializable {
 
 	private static final long serialVersionUID = 4809068280351869676L;
 
-	public AbstractProcess createProcess(String path) {
-		return new TestProcess(path);
+	@Override
+	public BWProcess createResource(String path) {
+		return new BWProcess(path);
 	}
 
-	public AbstractProcess[] createProcessArray(int length,	HashSet<String> paths) {
-		return new TestProcess[length-1];
+	@Override
+	public BWProcess[] createResourceArray(int length) {
+		return new BWProcess[length-1];
+	}
+
+	@Override
+	public FileFilter getFilter() {
+		return new FileFilter() {
+			public boolean accept(File file) {
+				return file.isFile() &&
+					   file.getParentFile() != null &&
+					   file.getParentFile().getName().toLowerCase().endsWith("TestCase".toLowerCase()) &&
+					   file.getParentFile().getParentFile() != null &&
+					   file.getParentFile().getParentFile().getName().toLowerCase().endsWith("TestSuite".toLowerCase()) &&
+					   file.getName().toLowerCase().endsWith(".process");
+			}
+		};
+	}
+
+	@Override
+	public FileFilter getTreeFilter() {
+		return new FileFilter() {
+			public boolean accept(File file) {
+				return file.isFile() ||
+					   file.isDirectory();
+			}
+		};
 	}
 
 }

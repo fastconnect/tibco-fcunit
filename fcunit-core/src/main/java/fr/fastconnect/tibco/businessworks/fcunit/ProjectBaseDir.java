@@ -16,6 +16,7 @@
  */
 package fr.fastconnect.tibco.businessworks.fcunit;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 import com.tibco.bw.store.RepoAgent;
@@ -31,6 +32,7 @@ import com.tibco.pe.core.Engine;
 public class ProjectBaseDir implements Serializable {
 
 	private static final long serialVersionUID = 693667351865956165L;
+	public static String projectBaseDir;
 
 	/**
 	 * Les tests d'un projet contenant FCUnit sont exécutés via un Web Service.
@@ -38,10 +40,19 @@ public class ProjectBaseDir implements Serializable {
 	 * renvoit le RepoAgent correspondant au projet appelant.
 	 * 
 	 * @return Le répertoire de base du projet qui a appelé la méthode (via une activité "Java Method" dans Business Works)
+	 * @throws FileNotFoundException 
 	 */
 	public static String getProjectBaseDir() {
-		RepoAgent ra = Engine.getRepoAgent();
-		String uri = ra.getAbsoluteURIFromProjectRelativeURI("");
+		String uri;
+		try {
+			RepoAgent ra = Engine.getRepoAgent();
+			uri = ra.getAbsoluteURIFromProjectRelativeURI("");
+		} catch (NoClassDefFoundError e) {
+			if (projectBaseDir == null) {
+				System.err.println("The project base directory must be set.");
+			}
+			return projectBaseDir;
+		}
 		
 		return uri;
 	}

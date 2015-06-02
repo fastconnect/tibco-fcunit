@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <name name="FCUnit">
+        <version>204</version>
+        <author>Mathieu Debove</author>
+        <fileLocation>C:\FCUnit\FCUnit.projlib</fileLocation>
+        <resources>/FCUnit/FCUnit.serviceagent,/FCUnit/Activities/AssertAtLeastEqualXML.customProcess,/FCUnit/Activities/AssertEqual.customProcess,/FCUnit/Activities/AssertEqualDouble.customProcess,/FCUnit/Activities/AssertEqualXML.customProcess,/FCUnit/Activities/AssertFalse.customProcess,/FCUnit/Activities/AssertMatch.customProcess,/FCUnit/Activities/AssertTrue.customProcess,/FCUnit/Activities/Fail.customProcess,/FCUnit/Core/Asserts/AssertAtLeastEqualXML.process,/FCUnit/Core/Asserts/AssertNotMatch.process,/FCUnit/Core/Misc/callProcessToTest.process,/FCUnit/Core/Misc/getTestSuites.process,/FCUnit/Core/Misc/stopEngine.process,/FCUnit/Core/Run/runAllTests.process,/FCUnit/Core/Run/runSimpleTest.process,/FCUnit/Core/Run/runSimpleTestXML.process,/FCUnit/Core/Run/runTestCase.process,/FCUnit/Core/Run/runTestSuite.process,/FCUnit/Core/Run/runTestSuites.process,/FCUnit/Resources/FCUnit Aliases.aliaslib,/FCUnit/Resources/FCUnit Java.javaxpath,/FCUnit/Resources/HTTP Connection.sharedhttp,/FCUnit/Resources/JavaRegExp.javaxpath,/FCUnit/Resources/tests-structure.xslt,/FCUnit/Schemas/FCUnitAssertsSchema.xsd,/FCUnit/Schemas/FCUnitErrorsSchema.xsd,/FCUnit/Schemas/FCUnitSchema.xsd,/FCUnit/Templates/Test.process,/FCUnit/Templates/TestWithXMLInput.process,/FCUnit/WSDLs/FCUnit-abstract.wsdl,/FCUnit/WSDLs/FCUnit-concrete.wsdl,/FCUnit/runAllTestsAndShowResults.process</resources>
+    </name>
+</Repository:repository>

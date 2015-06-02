@@ -16,7 +16,7 @@
 		<project.build.directory.lib>${project.build.directory}/lib</project.build.directory.lib>
 		<project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
 
-		<bw.project.location>./bw/FCUnit</bw.project.location>
+		<bw.project.location>./src/main/bw/FCUnit</bw.project.location>
 		<bw.project.library.builder>/FCUnit/FCUnit.libbuilder</bw.project.library.builder>
 	</properties>
 

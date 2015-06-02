@@ -19,6 +19,8 @@ package fr.fastconnect.tibco.businessworks.fcunit;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.tibco.bw.store.RepoAgent;
 import com.tibco.pe.core.Engine;
@@ -85,6 +87,14 @@ public class CustomFunctions {
 		errorCodes.put("Core/Asserts/AssertAtLeastEqualXML.process", "1002");
 		
 		return errorCodes;
+	}
+
+	public static boolean matchRegex(String regex, String string) {
+		regex = regex.replace("\\", "\\\\");
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(string);
+
+		return m.matches();
 	}
 
 	/**

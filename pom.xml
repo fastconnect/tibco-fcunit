@@ -27,7 +27,7 @@
 				<executions>
 					<execution>
 						<id>force-headers</id>
-						<inherited>false</inherited>
+						<inherited>true</inherited>
 						<phase>process-sources</phase>
 						<goals>
 							<goal>format</goal>
@@ -101,4 +101,10 @@
 
 	<url>https://fastconnect.github.io/tibco-factory/fcunit</url>
 
+			<distributionManagement>
+				<snapshotRepository>
+					<id>repo.tec.snapshot</id>
+					<url>http://s00vl9937470.fr.net.intra:8081/nexus/content/repositories/tec-snapshot</url>
+				</snapshotRepository>
+			</distributionManagement>
 </project>

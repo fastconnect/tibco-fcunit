@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<ns0:java-xpath xmlns:ns0="http://www.tibco.com/bw/javaxpath/2003">
+    <ns0:suggestedPrefix>regex</ns0:suggestedPrefix>
+    <ns0:loadedFromLocation>C:\debovema\BWMaven-clean\regex\bin\regex\Regex.class</ns0:loadedFromLocation>
+    <ns0:bytecode>yv66vgAAADIAMwcAAgEAC3JlZ2V4L1JlZ2V4BwAEAQAQamF2YS9sYW5nL09iamVjdAEABjxpbml0PgEAAygpVgEABENvZGUKAAMACQwABQAGAQAPTGluZU51bWJlclRhYmxlAQASTG9jYWxWYXJpYWJsZVRhYmxlAQAEdGhpcwEADUxyZWdleC9SZWdleDsBAAptYXRjaFJlZ2V4AQAnKExqYXZhL2xhbmcvU3RyaW5nO0xqYXZhL2xhbmcvU3RyaW5nOylaCAARAQABXAgAEwEAAlxcCgAVABcHABYBABBqYXZhL2xhbmcvU3RyaW5nDAAYABkBAAdyZXBsYWNlAQBEKExqYXZhL2xhbmcvQ2hhclNlcXVlbmNlO0xqYXZhL2xhbmcvQ2hhclNlcXVlbmNlOylMamF2YS9sYW5nL1N0cmluZzsKABsAHQcAHAEAF2phdmEvdXRpbC9yZWdleC9QYXR0ZXJuDAAeAB8BAAdjb21waWxlAQAtKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS91dGlsL3JlZ2V4L1BhdHRlcm47CgAbACEMACIAIwEAB21hdGNoZXIBADMoTGphdmEvbGFuZy9DaGFyU2VxdWVuY2U7KUxqYXZhL3V0aWwvcmVnZXgvTWF0Y2hlcjsKACUAJwcAJgEAF2phdmEvdXRpbC9yZWdleC9NYXRjaGVyDAAoACkBAAdtYXRjaGVzAQADKClaAQAFcmVnZXgBABJMamF2YS9sYW5nL1N0cmluZzsBAAZzdHJpbmcBAAFwAQAZTGphdmEvdXRpbC9yZWdleC9QYXR0ZXJuOwEAAW0BABlMamF2YS91dGlsL3JlZ2V4L01hdGNoZXI7AQAKU291cmNlRmlsZQEAClJlZ2V4LmphdmEAIQABAAMAAAAAAAIAAQAFAAYAAQAHAAAALwABAAEAAAAFKrcACLEAAAACAAoAAAAGAAEAAAAGAAsAAAAMAAEAAAAFAAwADQAAAAkADgAPAAEABwAAAG0AAwAEAAAAGSoSEBIStgAUSyq4ABpNLCu2ACBOLbYAJKwAAAACAAoAAAASAAQAAAAJAAkACgAOAAsAFAANAAsAAAAqAAQAAAAZACoAKwAAAAAAGQAsACsAAQAOAAsALQAuAAIAFAAFAC8AMAADAAEAMQAAAAIAMg==</ns0:bytecode>
+</ns0:java-xpath>
