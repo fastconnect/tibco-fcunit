@@ -46,6 +46,7 @@
 	</properties>
 
 	<modules>
+		<module>fcunit-assemblies</module>
 		<module>fcunit-core</module>
 		<module>fcunit-projlib</module>
 	</modules>
