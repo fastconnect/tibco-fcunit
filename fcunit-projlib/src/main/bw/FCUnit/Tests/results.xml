@@ -19,4 +19,27 @@
 -->
 <testsuites xmlns:fcue="http://fastconnect.fr/fcunit-errors.xsd"
             xmlns:xs="http://www.w3.org/TR/xmlschema-2/"
-            xmlns:fcfn="http://fastconnect.fr/fcunit_helpers"/>
+            xmlns:fcfn="http://fastconnect.fr/fcunit_helpers">
+   <testsuite name="FolderTestSuite" timestamp="2015-06-10T18:41:47" hostname="" tests="3"
+              failures="2"
+              errors="1"
+              time="0.1"
+              package="/Tests/FolderTestSuite"
+              id="0">
+      <testcase classname="/Tests/FolderTestSuite/FolderTestCase/MyTest.process" name="MyTest"
+                time="0.01">
+         <failure message="error on exit from activity, no matching transition"
+                  type="BWENGINE-100035"/>
+      </testcase>
+      <testcase classname="/Tests/FolderTestSuite/XMLTestCase/MyXMLTest.tasklist"
+                name="MyXMLTest"
+                time="0.009000000000000001">
+         <error message="" type=""/>
+      </testcase>
+      <testcase classname="/Tests/FolderTestSuite/XML2TestCase/MyXMLTest.tasklist"
+                name="MyXMLTest"
+                time="0.081">
+         <failure message="Call process input failed validation" type="BWENGINE-100067"/>
+      </testcase>
+   </testsuite>
+</testsuites>

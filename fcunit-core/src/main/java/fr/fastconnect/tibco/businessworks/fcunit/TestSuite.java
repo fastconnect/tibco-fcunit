@@ -74,7 +74,7 @@ public class TestSuite extends BWResource implements Serializable {
 		TestSuite current = new TestSuite("/");
 		TestSuite root = current;
 
-		Pattern p = Pattern.compile("(^\\S*TestSuite|[^\\/]*TestSuite|[^\\/]*TestCase|[^\\/]*\\.process)[^\\/]*");
+		Pattern p = Pattern.compile("(^\\S*TestSuite|[^\\/]*TestSuite|[^\\/]*TestCase|[^\\/]*\\.process|[^\\/]*\\.tasklist)[^\\/]*");
 	    for (int i = 0; i < result.length; i++) {
 	    	current = root;
 			BWResource bwResource = result[i];
@@ -97,10 +97,14 @@ public class TestSuite extends BWResource implements Serializable {
 					currentCase = current.getCase(path);
 				} else if (resource.toLowerCase().endsWith(".process")) {
 					if (currentCase != null) {
-						currentCase.addProcess(path.substring(1));
+						currentCase.addTestProcess(path);
+					}
+				} else if (resource.toLowerCase().endsWith(".tasklist")) {
+					if (currentCase != null) {
+						currentCase.addTestXML(path);
 					}
 				}
-				System.out.println(m.group(1));
+//				System.out.println(m.group(1));
 			}
 
 	    }

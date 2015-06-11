@@ -17,7 +17,7 @@
     limitations under the License.
 
 -->
-<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns3="http://fastconnect.fr/fcunit-asserts.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns3="http://fastconnect.fr/fcunit-asserts.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
     <xsd:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
     <pd:name>FCUnit/Templates/TestWithXMLInput.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -37,23 +37,23 @@
             </xsd:complexType>
         </xsd:element>
     </pd:startType>
-    <pd:startX>42</pd:startX>
-    <pd:startY>120</pd:startY>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
     <pd:returnBindings/>
     <pd:endName>End</pd:endName>
-    <pd:endX>930</pd:endX>
-    <pd:endY>120</pd:endY>
+    <pd:endX>922</pd:endX>
+    <pd:endY>130</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1301653581484</pd:targetNamespace>
     <pd:activity name="callProcessToTest">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>284</pd:x>
-        <pd:y>120</pd:y>
+        <pd:x>314</pd:x>
+        <pd:y>130</pd:y>
         <config>
             <processName>/FCUnit/Core/Misc/callProcessToTest.process</processName>
-            <processNameXPath>$Start/test/path</processNameXPath>
+            <processNameXPath>$Start/test/pfx:test-xml/pfx:tested-process-path</processNameXPath>
         </config>
         <pd:inputBindings>
             <xsl:copy-of select="$Start/test/input-data/*"/>
@@ -63,43 +63,47 @@
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>697</pd:x>
-        <pd:y>179</pd:y>
+        <pd:y>194</pd:y>
         <config>
             <processName>/FCUnit/Core/Asserts/AssertAtLeastEqualXML.process</processName>
         </config>
         <pd:inputBindings>
             <ns3:equal-xml>
                 <ns3:expected-filename>
-                    <xsl:value-of select="$Start/test/pfx:test-xml/@expected-xml-filename"/>
+                    <xsl:value-of select="$Start/test/pfx:test-xml/pfx:expected-xml-filename"/>
                 </ns3:expected-filename>
                 <ns3:actual>
                     <xsl:copy-of select="$callProcessToTest/*"/>
                 </ns3:actual>
-                <ns3:ignored-xpaths-filename>
-                    <xsl:value-of select="$Start/test/pfx:test-xml/@ignored-xpaths-filename"/>
-                </ns3:ignored-xpaths-filename>
+                <ns3:ignored-xpaths>
+                    <xsl:copy-of select="$Start/test/pfx:test-xml/pfx:ignored-xpaths/ancestor-or-self::*/namespace::node()"/>
+                    <xsl:copy-of select="$Start/test/pfx:test-xml/pfx:ignored-xpaths/@*"/>
+                    <xsl:copy-of select="$Start/test/pfx:test-xml/pfx:ignored-xpaths/node()"/>
+                </ns3:ignored-xpaths>
             </ns3:equal-xml>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="AssertEqualXML">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>697</pd:x>
-        <pd:y>61</pd:y>
+        <pd:x>692</pd:x>
+        <pd:y>66</pd:y>
         <config>
             <processName>/FCUnit/Core/Asserts/AssertEqualXML.process</processName>
         </config>
         <pd:inputBindings>
             <ns3:equal-xml>
                 <ns3:expected-filename>
-                    <xsl:value-of select="$Start/test/pfx:test-xml/@expected-xml-filename"/>
+                    <xsl:value-of select="$Start/test/pfx:test-xml/pfx:expected-xml-filename"/>
                 </ns3:expected-filename>
                 <ns3:actual>
                     <xsl:copy-of select="$callProcessToTest/*"/>
                 </ns3:actual>
-                <ns3:ignored-xpaths-filename>
-                    <xsl:value-of select="$Start/test/pfx:test-xml/@ignored-xpaths-filename"/>
-                </ns3:ignored-xpaths-filename>
+                <ns3:ignored-xpaths>
+                    <xsl:copy-of select="$Start/test/pfx:test-xml/pfx:ignored-xpaths/ancestor-or-self::*/namespace::node()"/>
+                    <xsl:copy-of select="$Start/test/pfx:test-xml/pfx:ignored-xpaths/@*"/>
+                    <xsl:copy-of select="$Start/test/pfx:test-xml/pfx:ignored-xpaths/node()"/>
+                </ns3:ignored-xpaths>
             </ns3:equal-xml>
         </pd:inputBindings>
     </pd:activity>
@@ -116,7 +120,7 @@
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>xpath</pd:conditionType>
-        <pd:xpath>$Start/test/pfx:test-xml/@accept-more-fields-in-actual="true"</pd:xpath>
+        <pd:xpath>$Start/test/pfx:test-xml/pfx:accept-more-fields-in-actual="true"</pd:xpath>
     </pd:transition>
     <pd:transition>
         <pd:from>AssertAtLeastEqualXML</pd:from>

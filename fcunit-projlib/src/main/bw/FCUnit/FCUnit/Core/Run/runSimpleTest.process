@@ -24,7 +24,7 @@
     <pd:startName>Start</pd:startName>
     <pd:startType ref="pfx:test"/>
     <pd:startX>58</pd:startX>
-    <pd:startY>98</pd:startY>
+    <pd:startY>162</pd:startY>
     <pd:returnBindings>
         <pfx:test-result>
             <xsl:if test="$Start/pfx:test/@name">
@@ -39,6 +39,9 @@
             </xsl:if>
             <xsl:attribute name="datetime">
                 <xsl:value-of select="current-dateTime()"/>
+            </xsl:attribute>
+            <xsl:attribute name="duration">
+                <xsl:value-of select="$Get-Completion-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted - $Get-Start-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted"/>
             </xsl:attribute>
             <xsl:choose>
                 <xsl:when test="$_error">
@@ -77,21 +80,15 @@
                     </pfx:test-failure>
                 </xsl:when>
                 <xsl:otherwise>
-                    <pfx:test-success>
-                        <pfx:duration>
-                            <pfx:test>
-                                <xsl:value-of select="$Get-Completion-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted - $Get-Start-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted"/>
-                            </pfx:test>
-                        </pfx:duration>
-                    </pfx:test-success>
+                    <pfx:test-success/>
                 </xsl:otherwise>
             </xsl:choose>
         </pfx:test-result>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:test-result"/>
-    <pd:endX>698</pd:endX>
-    <pd:endY>98</pd:endY>
+    <pd:endX>730</pd:endX>
+    <pd:endY>162</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1301560913578</pd:targetNamespace>
@@ -99,7 +96,7 @@
         <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
         <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
         <pd:x>205</pd:x>
-        <pd:y>98</pd:y>
+        <pd:y>162</pd:y>
         <config>
             <command>GetProcessInstanceInfo</command>
         </config>
@@ -117,7 +114,7 @@
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>346</pd:x>
-        <pd:y>98</pd:y>
+        <pd:y>162</pd:y>
         <config>
             <processName>/FCUnit/Templates/Test.process</processName>
             <processNameXPath>$Start/pfx:test/@path</processNameXPath>
@@ -127,8 +124,8 @@
     <pd:activity name="Get Completion Time">
         <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
         <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
-        <pd:x>528</pd:x>
-        <pd:y>202</pd:y>
+        <pd:x>560</pd:x>
+        <pd:y>170</pd:y>
         <config>
             <command>GetProcessInstanceInfo</command>
         </config>
@@ -139,6 +136,14 @@
                 </ProcessId>
             </ns2:input>
         </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Failure">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>442</pd:x>
+        <pd:y>34</pd:y>
+        <config/>
+        <pd:inputBindings/>
     </pd:activity>
     <pd:transition>
         <pd:from>Start</pd:from>
@@ -170,9 +175,16 @@
     </pd:transition>
     <pd:transition>
         <pd:from>Test</pd:from>
-        <pd:to>End</pd:to>
+        <pd:to>Failure</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Failure</pd:from>
+        <pd:to>Get Completion Time</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
     </pd:transition>
 </pd:ProcessDefinition>

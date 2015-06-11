@@ -21,10 +21,10 @@
     <pd:name>FCUnit/runAllTestsAndShowResults.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startX>58</pd:startX>
-    <pd:startY>66</pd:startY>
+    <pd:startY>162</pd:startY>
     <pd:returnBindings/>
     <pd:endName>End</pd:endName>
-    <pd:endX>954</pd:endX>
+    <pd:endX>1018</pd:endX>
     <pd:endY>162</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
@@ -33,7 +33,7 @@
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>165</pd:x>
-        <pd:y>66</pd:y>
+        <pd:y>162</pd:y>
         <config>
             <processName>/FCUnit/Core/Run/runAllTests.process</processName>
         </config>
@@ -55,8 +55,8 @@
     <pd:activity name="Output to Console">
         <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
         <pd:resourceType>ae.activities.log</pd:resourceType>
-        <pd:x>567</pd:x>
-        <pd:y>66</pd:y>
+        <pd:x>343</pd:x>
+        <pd:y>34</pd:y>
         <config>
             <role>User</role>
         </config>
@@ -71,8 +71,8 @@
     <pd:activity name="Failed tests count">
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>311</pd:x>
-        <pd:y>322</pd:y>
+        <pd:x>343</pd:x>
+        <pd:y>290</pd:y>
         <config>
             <element>
                 <xsd:element name="failedTestsCount" type="xsd:int"/>
@@ -87,7 +87,7 @@
     <pd:activity name="Test processes count">
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>305</pd:x>
+        <pd:x>337</pd:x>
         <pd:y>170</pd:y>
         <config>
             <element>
@@ -135,8 +135,8 @@
     <pd:activity name="Failed tests list">
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>719</pd:x>
-        <pd:y>322</pd:y>
+        <pd:x>495</pd:x>
+        <pd:y>290</pd:y>
         <config>
             <element>
                 <xsd:element name="failed-tests">
@@ -172,6 +172,48 @@
             <testCoveragePercentage>
                 <xsl:value-of select="$runAllTests/ns:test-suites-results-msg/test-suites-results/ns3:test-suites-results/ns3:TestCoveragePercentage"/>
             </testCoveragePercentage>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Error tests count">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>629</pd:x>
+        <pd:y>290</pd:y>
+        <config>
+            <element>
+                <xsd:element name="errorTestsCount" type="xsd:int"/>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <errorTestsCount>
+                <xsl:value-of select="count($runAllTests/ns:test-suites-results-msg/test-suites-results/ns3:test-suites-results//ns3:test-error)"/>
+            </errorTestsCount>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Error tests list">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>781</pd:x>
+        <pd:y>290</pd:y>
+        <config>
+            <element>
+                <xsd:element name="error-tests">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="test-process-path" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <error-tests>
+                <xsl:for-each xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$runAllTests/ns:test-suites-results-msg/test-suites-results/ns3:test-suites-results//ns3:test-result[./ns3:test-error]/@path">
+                    <test-process-path>
+                        <xsl:value-of select="."/>
+                    </test-process-path>
+                </xsl:for-each>
+            </error-tests>
         </pd:inputBindings>
     </pd:activity>
     <pd:transition>
@@ -246,6 +288,20 @@
     </pd:transition>
     <pd:transition>
         <pd:from>Failed tests list</pd:from>
+        <pd:to>Error tests count</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Error tests count</pd:from>
+        <pd:to>Error tests list</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Error tests list</pd:from>
         <pd:to>End</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>

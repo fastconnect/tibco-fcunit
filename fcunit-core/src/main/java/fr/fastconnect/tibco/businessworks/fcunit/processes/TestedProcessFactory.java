@@ -26,6 +26,7 @@ import org.w3c.dom.Node;
 import fr.fastconnect.tibco.businessworks.fcunit.ProjectBaseDir;
 import fr.fastconnect.tibco.businessworks.fcunit.resources.BWProcess;
 import fr.fastconnect.tibco.businessworks.fcunit.resources.Resources;
+import fr.fastconnect.tibco.businessworks.fcunit.resources.XMLTest;
 
 public class TestedProcessFactory extends TestableProcessFactory implements Serializable {
 
@@ -35,10 +36,12 @@ public class TestedProcessFactory extends TestableProcessFactory implements Seri
 	private final static String callProcessToTestClassic = "/pd:ProcessDefinition/pd:activity/config/processName";
 
 	private BWProcess[] testProcesses;
+	private XMLTest[] xmlTests;
 
 	public TestedProcessFactory() {
 		super();
 		testProcesses = Resources.getTestProcesses();
+		xmlTests = Resources.getXMLTests();
 	}
 
 	private String getTestedProcess(File testProcess) {
@@ -59,7 +62,7 @@ public class TestedProcessFactory extends TestableProcessFactory implements Seri
 
 	}
 
-	public boolean isTested(File file) {
+	private boolean isTested(File file) {
 		BWProcess process;
 		try {
 			process = new BWProcess(file);
@@ -71,6 +74,14 @@ public class TestedProcessFactory extends TestableProcessFactory implements Seri
 			BWProcess testProcess = testProcesses[i];
 
 			String result = getTestedProcess(new File(ProjectBaseDir.getProjectBaseDir(), testProcess.getPath()));
+			if (result != null && result.equals(process.getPath())) {
+				return true;
+			}
+		}
+		for (int i = 0; i < xmlTests.length; i++) {
+			XMLTest xmlTest = xmlTests[i];
+
+			String result = xmlTest.getTestedProcessPath();
 			if (result != null && result.equals(process.getPath())) {
 				return true;
 			}

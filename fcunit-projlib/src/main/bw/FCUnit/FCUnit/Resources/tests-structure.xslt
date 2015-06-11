@@ -42,12 +42,23 @@ xmlns:ns_0 = "www.tibco.com/plugin/java/xmlSchema/fr.fastconnect.tibco.businessw
 	<xsl:template match="ns_0:Cases">
 		<test-case name="{ns_0:Name}" path="{ns_0:Path}">
 			<xsl:apply-templates select="ns_0:Tests"/>
+			<xsl:apply-templates select="ns_0:TestsXML"/>
 		</test-case>
 	</xsl:template>
 
 	<xsl:template match="ns_0:Tests">
 		<test name="{ns_0:Name}" path="{ns_0:Path}">
 		</test>
+	</xsl:template>
+
+	<xsl:template match="ns_0:TestsXML">
+		<test-xml name="{ns_0:Name}" path="{ns_0:Path}">
+			<input-xml-filename><xsl:value-of select="ns_0:InputXMLFile" /></input-xml-filename>
+			<expected-xml-filename><xsl:value-of select="ns_0:ExpectedXMLFile" /></expected-xml-filename>
+			<tested-process-path><xsl:value-of select="ns_0:TestedProcessPath" /></tested-process-path>
+			<ignored-xpaths></ignored-xpaths>
+			<accept-more-fields-in-actual>false</accept-more-fields-in-actual>
+		</test-xml>
 	</xsl:template>
 
 </xsl:stylesheet>

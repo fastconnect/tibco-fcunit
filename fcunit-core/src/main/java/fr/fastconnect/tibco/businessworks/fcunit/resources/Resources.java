@@ -21,6 +21,8 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +46,7 @@ import fr.fastconnect.tibco.businessworks.fcunit.processes.AbstractBWResourceFac
 import fr.fastconnect.tibco.businessworks.fcunit.processes.TestProcessFactory;
 import fr.fastconnect.tibco.businessworks.fcunit.processes.TestableProcessFactory;
 import fr.fastconnect.tibco.businessworks.fcunit.processes.TestedProcessFactory;
+import fr.fastconnect.tibco.businessworks.fcunit.processes.XMLTestFactory;
 
 public class Resources<T extends BWResource> implements Serializable {
 
@@ -88,30 +91,34 @@ public class Resources<T extends BWResource> implements Serializable {
 		}
 
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		NamespaceContext pdNamespace = new NamespaceContext() {
+		NamespaceContext namespaces = new NamespaceContext() {
 			
 			public Iterator<?> getPrefixes(String namespaceURI) {
 				return null;
 			}
 			
 			public String getPrefix(String namespaceURI) {
-				if("http://xmlns.tibco.com/bw/process/2003".equals(namespaceURI)){
+				if ("http://xmlns.tibco.com/bw/process/2003".equals(namespaceURI)) {
 					return "pd";
-				}else{
+				} else if ("http://www.tibco.com/xmlns/repo/types/2002".equals(namespaceURI)) {
+					return "Repository";
+				} else {
 					return null;
 				}
 			}
 			
 			public String getNamespaceURI(String prefix) {
-				if("pd".equals(prefix)){
+				if ("pd".equals(prefix)) {
 					return "http://xmlns.tibco.com/bw/process/2003";
-				}else{
+				} else if ("Repository".equals(prefix)) {
+					return "http://www.tibco.com/xmlns/repo/types/2002";
+				} else {
 					return null;
 				}
 			}
 		};
-		
-		xpath.setNamespaceContext(pdNamespace);
+
+		xpath.setNamespaceContext(namespaces);
 		String expression = xPathExpression;
 		try {
 			Node widgetNode = (Node) xpath.evaluate(expression, document, XPathConstants.NODE);
@@ -164,12 +171,16 @@ public class Resources<T extends BWResource> implements Serializable {
 	}
 
 	public static BWProcess[] getTestProcesses() {
-		BWProcess[] result = new Resources<BWProcess>(new TestProcessFactory()).getResources();
-		System.out.println(result.toString());
-		for (BWProcess bwProcess : result) {
-			System.out.println(bwProcess.getPath());
-		}
 		return new Resources<BWProcess>(new TestProcessFactory()).getResources();
+	}
+
+	public static XMLTest[] getXMLTests() {
+		return new Resources<XMLTest>(new XMLTestFactory()).getResources();
+	}
+
+	public static BWResource[] getAllTests() {
+//		return mergeResources(getTestProcesses(), getXMLTests());
+		return mergeResources(getXMLTests(), getTestProcesses());
 	}
 
 	public static BWProcess[] getTestedProcesses() {
@@ -183,9 +194,25 @@ public class Resources<T extends BWResource> implements Serializable {
 	public static int getTestProcessesCount() {
 		return getTestProcesses().length;
 	}
-	
+
+	public static int getXMLTestsCount() {
+		return getXMLTests().length;
+	}
+
+	public static int getAllTestsCount() {
+		return getAllTests().length;
+	}
+
 	public static int getTestedProcessesCount() {
 		return getTestedProcesses().length;
+	}
+
+	public static BWResource[] mergeResources(BWResource[] r1, BWResource[] r2) {
+		Collection<BWResource> collection = new ArrayList<BWResource>();
+		collection.addAll(Arrays.asList(r1));
+		collection.addAll(Arrays.asList(r2));
+
+		return collection.toArray(new BWResource[] {});
 	}
 
 	public static void main(String... args) {
@@ -205,7 +232,21 @@ public class Resources<T extends BWResource> implements Serializable {
 			System.out.println(resource.getPath());
 		}
 
-		TestSuite.createTreeFromList(result);
+		System.out.println("XML tests");
+		result = getXMLTests();
+		for (BWResource resource : result) {
+			System.out.println(resource.getPath());
+			System.out.println(((XMLTest) resource).getTestedProcessPath());
+		}
+
+		System.out.println("All Tests");
+		result = getAllTests();
+		for (BWResource resource : result) {
+			System.out.println(resource.getPath());
+		}
+		
+		TestSuite testSuite = TestSuite.createTreeFromList(result);
+		testSuite.toString();
 		
 		System.out.println("Tested processes");
 		result = getTestedProcesses();
@@ -213,4 +254,5 @@ public class Resources<T extends BWResource> implements Serializable {
 			System.out.println(resource.getPath());
 		}
 	}
+
 }

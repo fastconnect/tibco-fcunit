@@ -22,6 +22,7 @@ import java.util.List;
 
 import fr.fastconnect.tibco.businessworks.fcunit.resources.BWProcess;
 import fr.fastconnect.tibco.businessworks.fcunit.resources.BWResource;
+import fr.fastconnect.tibco.businessworks.fcunit.resources.XMLTest;
 
 /**
  * Une classe qui modélise un TestCase, donc une liste de {@link TestProcess} contenus dans le TestCase.
@@ -34,6 +35,8 @@ public class TestCase extends BWResource implements Serializable {
 	private static final long serialVersionUID = -5129492488357372228L;
 
 	private List<BWProcess> tests = new ArrayList<BWProcess>();
+
+	private List<XMLTest> testsXML = new ArrayList<XMLTest>();
 
 	/**
 	 * Création via {@link BWResource}
@@ -50,15 +53,24 @@ public class TestCase extends BWResource implements Serializable {
 	 * 
 	 * @param process
 	 */
-	public void addProcess(String process) {
+	public void addTestProcess(String process) {
 		this.tests.add(new BWProcess(process));
 	}
 
-	/**
-	 * 
-	 * @return la liste des {@link TestProcess} sous forme d'array
-	 */
+	public void addTestXML(String path) {
+		try {
+			this.testsXML.add(new XMLTest(path));
+		} catch (Exception e) {
+			System.err.println(path + " was not added.");
+		}
+	}
+
 	public BWProcess[] getTests() {
 		return ((BWProcess[]) this.tests.toArray(new BWProcess[0]));
 	}
+
+	public XMLTest[] getTestsXML() {
+		return ((XMLTest[]) this.testsXML.toArray(new XMLTest[0]));
+	}
+
 }

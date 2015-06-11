@@ -126,7 +126,7 @@
     <pd:activity name="XMLUnit AssertEqual">
         <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
         <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
-        <pd:x>199</pd:x>
+        <pd:x>295</pd:x>
         <pd:y>202</pd:y>
         <config>
             <ConstructDeclaredClass>true</ConstructDeclaredClass>
@@ -332,55 +332,13 @@
                     <xsl:value-of select="$XMLUnit-AssertEqual/pfx4:JavaMethodActivityOutput/MethodReturnValue"/>
                 </fr.fastconnect.tibco.businessworks.fcunit.xml.AssertXMLEqual>
                 <MethodParameters>
-                    <xsl:for-each select="$Parse-Ignored-XPaths/ignoredXPaths/ignoredXPath">
+                    <xsl:for-each select="$Start/pfx2:equal-xml/pfx2:ignored-xpaths/pfx:xpath">
                         <Parameter1>
                             <xsl:value-of select="."/>
                         </Parameter1>
                     </xsl:for-each>
                 </MethodParameters>
             </ns:JavaMethodActivityInput>
-        </pd:inputBindings>
-    </pd:activity>
-    <pd:activity name="Read Ignored XPaths File">
-        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
-        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
-        <pd:x>106</pd:x>
-        <pd:y>330</pd:y>
-        <config>
-            <encoding>text</encoding>
-        </config>
-        <pd:inputBindings>
-            <ns3:ReadActivityInputClass>
-                <fileName>
-                    <xsl:value-of select="$Start/pfx2:equal-xml/pfx2:ignored-xpaths-filename"/>
-                </fileName>
-            </ns3:ReadActivityInputClass>
-        </pd:inputBindings>
-    </pd:activity>
-    <pd:activity name="Parse Ignored XPaths">
-        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
-        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
-        <pd:x>237</pd:x>
-        <pd:y>330</pd:y>
-        <config>
-            <inputStyle>text</inputStyle>
-            <xsdVersion>default</xsdVersion>
-            <validateOutput>true</validateOutput>
-            <term>
-                <xsd:element name="ignoredXPaths">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="ignoredXPath" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
-                            <xsd:element name="ignoredBranch" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-            </term>
-        </config>
-        <pd:inputBindings>
-            <xmlString>
-                <xsl:value-of select="$Read-Ignored-XPaths-File/ns2:ReadActivityOutputTextClass/fileContent/textContent"/>
-            </xmlString>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="Get Ignored Fields XPaths">
@@ -525,7 +483,7 @@
                     <xsl:value-of select="$XMLUnit-AssertEqual/pfx4:JavaMethodActivityOutput/MethodReturnValue"/>
                 </fr.fastconnect.tibco.businessworks.fcunit.xml.AssertXMLEqual>
                 <MethodParameters>
-                    <xsl:for-each xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$Parse-Ignored-XPaths/ignoredXPaths/ignoredBranch">
+                    <xsl:for-each xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$Start/pfx2:equal-xml/pfx2:ignored-xpaths/pfx:xpath">
                         <Parameter1>
                             <xsl:value-of select="."/>
                         </Parameter1>
@@ -579,13 +537,6 @@
         <pd:xpath>$assertXMLAtLeastEqual/pfx4:JavaMethodActivityOutput/MethodReturnValue="true"</pd:xpath>
     </pd:transition>
     <pd:transition>
-        <pd:from>Read Ignored XPaths File</pd:from>
-        <pd:to>Parse Ignored XPaths</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
         <pd:from>Start</pd:from>
         <pd:to>Render Actual XML</pd:to>
         <pd:lineType>Default</pd:lineType>
@@ -598,28 +549,6 @@
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>XMLUnit AssertEqual</pd:from>
-        <pd:to>Read Ignored XPaths File</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>Parse Ignored XPaths</pd:from>
-        <pd:to>Set Ignored Paths</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>Read Ignored XPaths File</pd:from>
-        <pd:to>assertXMLAtLeastEqual</pd:to>
-        <pd:xpathDescription>Si aucun fichier des champs à ignorer n'est trouvé</pd:xpathDescription>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>error</pd:conditionType>
     </pd:transition>
     <pd:transition>
         <pd:from>Parse Expected XML File</pd:from>
@@ -683,6 +612,22 @@
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>XMLUnit AssertEqual</pd:from>
+        <pd:to>Set Ignored Paths</pd:to>
+        <pd:xpathDescription>Some XPaths are ignored</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Start/pfx2:equal-xml/pfx2:ignored-xpaths/pfx:xpath)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>XMLUnit AssertEqual</pd:from>
+        <pd:to>assertXMLAtLeastEqual</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
     </pd:transition>
     <pd:iconImage>/9j/4AAQSkZJRgABAgEAWgBaAAD/4QZERXhpZgAATU0AKgAAAAgABwESAAMAAAABAAEAAAEaAAUA&#xD;
 AAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAExAAIAAAAnAAAAcgEyAAIAAAAUAAAAmYdp&#xD;

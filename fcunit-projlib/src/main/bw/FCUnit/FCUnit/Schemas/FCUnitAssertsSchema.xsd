@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
 
     (C) Copyright 2011-2015 FastConnect SAS
@@ -19,9 +20,11 @@
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	 xmlns:fcua="http://fastconnect.fr/fcunit-asserts.xsd"
+	 xmlns:fcu="http://fastconnect.fr/fcunit.xsd"
 	 targetNamespace="http://fastconnect.fr/fcunit-asserts.xsd"
 	 elementFormDefault="qualified"
 	 attributeFormDefault="unqualified">
+	<xs:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="FCUnitSchema.xsd"/>
 	<xs:complexType name="input-type">
 		<xs:sequence>
 			<xs:element name="msg" type="xs:string" minOccurs="0"/>
@@ -172,7 +175,7 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
-						<xs:element name="ignored-xpaths-filename" type="xs:string"/>
+						<xs:element name="ignored-xpaths" type="fcu:xpaths-list-type"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

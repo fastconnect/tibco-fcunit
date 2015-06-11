@@ -45,7 +45,7 @@
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:test-case-result"/>
-    <pd:endX>986</pd:endX>
+    <pd:endX>890</pd:endX>
     <pd:endY>194</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
@@ -55,8 +55,8 @@
         <pd:resourceType>ae.process.group</pd:resourceType>
         <pd:x>140</pd:x>
         <pd:y>32</pd:y>
-        <pd:width>368</pd:width>
-        <pd:height>306</pd:height>
+        <pd:width>272</pd:width>
+        <pd:height>307</pd:height>
         <pd:collapsedWidth>57</pd:collapsedWidth>
         <pd:collapsedHeight>70</pd:collapsedHeight>
         <pd:groupVariables/>
@@ -64,7 +64,7 @@
         <config>
             <pd:groupType>inputLoop</pd:groupType>
             <pd:serializable>false</pd:serializable>
-            <pd:over>$Start/pfx:test-case/pfx:test</pd:over>
+            <pd:over>$Start/pfx:test-case/pfx:test-xml</pd:over>
             <pd:iterationElementSlot>testXML</pd:iterationElementSlot>
             <pd:indexSlot>i</pd:indexSlot>
             <pd:outSlot>resultsXML</pd:outSlot>
@@ -79,21 +79,6 @@
             <pd:xpathDescription>Appel d'un test XML en présence d'un fichier "input-data.xml"</pd:xpathDescription>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>xpath</pd:conditionType>
-            <pd:xpath>fcu:isXMLTest($Start/pfx:test-case/@path)</pd:xpath>
-        </pd:transition>
-        <pd:transition>
-            <pd:from>start</pd:from>
-            <pd:to>Otherwise XML</pd:to>
-            <pd:lineType>Default</pd:lineType>
-            <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>otherwise</pd:conditionType>
-        </pd:transition>
-        <pd:transition>
-            <pd:from>Otherwise XML</pd:from>
-            <pd:to>end</pd:to>
-            <pd:lineType>Default</pd:lineType>
-            <pd:lineColor>-16777216</pd:lineColor>
             <pd:conditionType>always</pd:conditionType>
         </pd:transition>
         <pd:transition>
@@ -106,41 +91,22 @@
         <pd:activity name="runSimpleTestXML">
             <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
             <pd:resourceType>ae.process.subprocess</pd:resourceType>
-            <pd:x>315</pd:x>
-            <pd:y>98</pd:y>
+            <pd:x>283</pd:x>
+            <pd:y>194</pd:y>
             <config>
                 <processName>/FCUnit/Core/Run/runSimpleTestXML.process</processName>
             </config>
             <pd:inputBindings>
-                <pfx:test>
-                    <xsl:if test="$testXML/pfx:test/@name">
-                        <xsl:attribute name="name">
-                            <xsl:value-of select="$testXML/pfx:test/@name"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                    <xsl:if test="$testXML/pfx:test/@path">
-                        <xsl:attribute name="path">
-                            <xsl:value-of select="$testXML/pfx:test/@path"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                </pfx:test>
+                <xsl:copy-of select="$testXML/pfx:test-xml"/>
             </pd:inputBindings>
-        </pd:activity>
-        <pd:activity name="Otherwise XML">
-            <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
-            <pd:resourceType>ae.activities.null</pd:resourceType>
-            <pd:x>304</pd:x>
-            <pd:y>258</pd:y>
-            <config/>
-            <pd:inputBindings/>
         </pd:activity>
     </pd:group>
     <pd:group name="Appels des tests simples">
         <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
         <pd:resourceType>ae.process.group</pd:resourceType>
-        <pd:x>552</pd:x>
-        <pd:y>34</pd:y>
-        <pd:width>374</pd:width>
+        <pd:x>517</pd:x>
+        <pd:y>33</pd:y>
+        <pd:width>287</pd:width>
         <pd:height>304</pd:height>
         <pd:collapsedWidth>57</pd:collapsedWidth>
         <pd:collapsedHeight>70</pd:collapsedHeight>
@@ -160,19 +126,11 @@
         <pd:expanded>true</pd:expanded>
         <pd:transition>
             <pd:from>start</pd:from>
-            <pd:to>Otherwise simple</pd:to>
-            <pd:lineType>Default</pd:lineType>
-            <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>otherwise</pd:conditionType>
-        </pd:transition>
-        <pd:transition>
-            <pd:from>start</pd:from>
             <pd:to>runSimpleTest</pd:to>
             <pd:xpathDescription>Appel d'un test simple</pd:xpathDescription>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>xpath</pd:conditionType>
-            <pd:xpath>not(fcu:isXMLTest($Start/pfx:test-case/@path))</pd:xpath>
+            <pd:conditionType>always</pd:conditionType>
         </pd:transition>
         <pd:transition>
             <pd:from>runSimpleTest</pd:from>
@@ -181,43 +139,17 @@
             <pd:lineColor>-16777216</pd:lineColor>
             <pd:conditionType>always</pd:conditionType>
         </pd:transition>
-        <pd:transition>
-            <pd:from>Otherwise simple</pd:from>
-            <pd:to>end</pd:to>
-            <pd:lineType>Default</pd:lineType>
-            <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>always</pd:conditionType>
-        </pd:transition>
         <pd:activity name="runSimpleTest">
             <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
             <pd:resourceType>ae.process.subprocess</pd:resourceType>
-            <pd:x>718</pd:x>
-            <pd:y>98</pd:y>
+            <pd:x>654</pd:x>
+            <pd:y>194</pd:y>
             <config>
                 <processName>/FCUnit/Core/Run/runSimpleTest.process</processName>
             </config>
             <pd:inputBindings>
-                <pfx:test>
-                    <xsl:if test="$testSimple/pfx:test/@name">
-                        <xsl:attribute name="name">
-                            <xsl:value-of select="$testSimple/pfx:test/@name"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                    <xsl:if test="$testSimple/pfx:test/@path">
-                        <xsl:attribute name="path">
-                            <xsl:value-of select="$testSimple/pfx:test/@path"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                </pfx:test>
+                <xsl:copy-of select="$testSimple/pfx:test"/>
             </pd:inputBindings>
-        </pd:activity>
-        <pd:activity name="Otherwise simple">
-            <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
-            <pd:resourceType>ae.activities.null</pd:resourceType>
-            <pd:x>727</pd:x>
-            <pd:y>258</pd:y>
-            <config/>
-            <pd:inputBindings/>
         </pd:activity>
     </pd:group>
     <pd:transition>

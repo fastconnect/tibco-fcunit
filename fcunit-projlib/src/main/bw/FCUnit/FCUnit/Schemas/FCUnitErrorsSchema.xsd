@@ -19,11 +19,9 @@
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	 xmlns:fcue="http://fastconnect.fr/fcunit-errors.xsd"
-	 xmlns:fcu="http://fastconnect.fr/fcunit.xsd"
 	 targetNamespace="http://fastconnect.fr/fcunit-errors.xsd"
 	 elementFormDefault="qualified"
 	 attributeFormDefault="unqualified">
-	<xs:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="FCUnitSchema.xsd"/>
 	<xs:complexType name="error-type"/>
 	<xs:complexType name="assertion-error-type">
 		<xs:complexContent>
@@ -160,28 +158,6 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="timeout-error">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="fcue:error-type">
-					<xs:sequence>
-						<xs:element name="timeout" type="xs:long"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="test-not-found-error">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="fcue:error-type">
-					<xs:sequence>
-						<xs:element ref="fcu:test-id"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="assert-xml-equal-error">
 		<xs:complexType>
 			<xs:complexContent>
@@ -239,4 +215,35 @@
 	<xs:simpleType name="xpath">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
+	
+	<!-- test errors (during execution) -->
+	<xs:element name="unknown-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:error-type" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="timeout-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:error-type">
+					<xs:sequence>
+						<xs:element name="timeout" type="xs:long"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test-not-found-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:error-type">
+					<xs:sequence>
+						<xs:element name="test-id" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

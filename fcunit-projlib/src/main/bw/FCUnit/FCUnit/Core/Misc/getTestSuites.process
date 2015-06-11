@@ -17,7 +17,7 @@
     limitations under the License.
 
 -->
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="www.tibco.com/plugin/java/JavaToXmlActivityInput" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:ns="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:ns4="www.tibco.com/plugin/java/JavaToXmlActivityOutput" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://fastconnect.fr/fcunit-abstract" xmlns:ns5="www.tibco.com/plugin/java/xmlSchema/fr.fastconnect.fcunit.TestSuiteListFactory" xmlns:pfx="http://fastconnect.fr/fcunit.xsd" xmlns:ns8="www.tibco.com/plugin/java/xmlSchema/fr.fastconnect.tibco.businessworks.fcunit.TestSuite">
+<pd:ProcessDefinition xmlns:ns2="www.tibco.com/plugin/java/JavaToXmlActivityInput" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns4="www.tibco.com/plugin/java/JavaToXmlActivityOutput" xmlns:ns="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://fastconnect.fr/fcunit-abstract" xmlns:ns5="www.tibco.com/plugin/java/xmlSchema/fr.fastconnect.fcunit.TestSuiteListFactory" xmlns:pfx="http://fastconnect.fr/fcunit.xsd" xmlns:ns8="www.tibco.com/plugin/java/xmlSchema/fr.fastconnect.tibco.businessworks.fcunit.TestSuite">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
     <wsdl:import namespace="http://fastconnect.fr/fcunit-abstract" location="/FCUnit/WSDLs/FCUnit-abstract.wsdl"/>
     <pd:name>FCUnit/Core/Misc/getTestSuites.process</pd:name>
@@ -34,7 +34,7 @@
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType wsMsgRef="pfx2:test-suites-msg"/>
-    <pd:endX>858</pd:endX>
+    <pd:endX>826</pd:endX>
     <pd:endY>130</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
@@ -42,7 +42,7 @@
     <pd:activity name="Transform XML">
         <pd:type>com.tibco.plugin.xml.XMLTransformActivity</pd:type>
         <pd:resourceType>ae.activities.XMLTransformActivity</pd:resourceType>
-        <pd:x>593</pd:x>
+        <pd:x>561</pd:x>
         <pd:y>130</pd:y>
         <config>
             <inputStyle>text</inputStyle>
@@ -60,7 +60,7 @@
     <pd:activity name="Parse XML">
         <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
         <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
-        <pd:x>740</pd:x>
+        <pd:x>708</pd:x>
         <pd:y>130</pd:y>
         <config>
             <inputStyle>text</inputStyle>
@@ -77,7 +77,7 @@
     <pd:activity name="Tree To XML">
         <pd:type>com.tibco.plugin.java.JavaToXmlActivity</pd:type>
         <pd:resourceType>ae.activities.JavaToXmlActivity</pd:resourceType>
-        <pd:x>456</pd:x>
+        <pd:x>424</pd:x>
         <pd:y>130</pd:y>
         <config>
             <Repeatable>false</Repeatable>
@@ -101,7 +101,7 @@
     <pd:activity name="Convert List To Tree">
         <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
         <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
-        <pd:x>335</pd:x>
+        <pd:x>303</pd:x>
         <pd:y>138</pd:y>
         <config>
             <ConstructDeclaredClass>false</ConstructDeclaredClass>
@@ -119,7 +119,7 @@
         <pd:inputBindings>
             <ns:JavaMethodActivityInput>
                 <MethodParameters>
-                    <xsl:for-each select="$Get-Test-Processes-List/ns1:JavaMethodActivityOutput/MethodReturnValue">
+                    <xsl:for-each select="$Get-All-Tests-List/ns1:JavaMethodActivityOutput/MethodReturnValue">
                         <Parameter1>
                             <xsl:value-of select="."/>
                         </Parameter1>
@@ -128,11 +128,11 @@
             </ns:JavaMethodActivityInput>
         </pd:inputBindings>
     </pd:activity>
-    <pd:activity name="Get Test Processes List">
+    <pd:activity name="Get All Tests List">
         <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
         <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
-        <pd:x>189</pd:x>
-        <pd:y>138</pd:y>
+        <pd:x>180</pd:x>
+        <pd:y>130</pd:y>
         <config>
             <ConstructDeclaredClass>false</ConstructDeclaredClass>
             <CacheConstructedClass>false</CacheConstructedClass>
@@ -141,8 +141,8 @@
                 <classLocation>c:/debovema/fctibcofactory/tibco-fcunit/fcunit-projlib/target/test/lib/fcunit-core-2.3.0-snapshot.jar</classLocation>
                 <classPath>/FCUnit/Resources/FCUnit Aliases.aliaslib</classPath>
                 <className>fr.fastconnect.tibco.businessworks.fcunit.resources.Resources</className>
-                <methodName>getTestProcesses</methodName>
-                <methodReturn>[Lfr.fastconnect.tibco.businessworks.fcunit.resources.BWProcess;</methodReturn>
+                <methodName>getAllTests</methodName>
+                <methodReturn>[Lfr.fastconnect.tibco.businessworks.fcunit.resources.BWResource;</methodReturn>
             </MethodInfo>
         </config>
         <pd:inputBindings>
@@ -179,13 +179,13 @@
     </pd:transition>
     <pd:transition>
         <pd:from>Start</pd:from>
-        <pd:to>Get Test Processes List</pd:to>
+        <pd:to>Get All Tests List</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
-        <pd:from>Get Test Processes List</pd:from>
+        <pd:from>Get All Tests List</pd:from>
         <pd:to>Convert List To Tree</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>

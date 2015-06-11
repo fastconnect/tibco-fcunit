@@ -38,7 +38,7 @@
                     </xs:extension>
                 </xs:complexContent>
             </xs:complexType>
-            <xs:complexType name="test-suite-collection">
+            <xs:complexType name="test-suites">
                 <xs:sequence>
                     <xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
@@ -158,7 +158,7 @@
                     </xs:complexContent>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="test-suites" type="fcu:test-suite-collection"/>
+            <xs:element name="test-suites" type="fcu:test-suites"/>
             <xs:element name="test-suites-results">
                 <xs:complexType>
                     <xs:sequence>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
 
     (C) Copyright 2011-2015 FastConnect SAS
@@ -19,25 +20,100 @@
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	 xmlns:fcu="http://fastconnect.fr/fcunit.xsd"
+	 xmlns:fcue="http://fastconnect.fr/fcunit-errors.xsd"
 	 targetNamespace="http://fastconnect.fr/fcunit.xsd"
 	 elementFormDefault="qualified"
 	 attributeFormDefault="unqualified">
+	<xs:import namespace="http://fastconnect.fr/fcunit-errors.xsd" schemaLocation="FCUnitErrorsSchema.xsd"/>
+
+	<!-- generic data types -->
+	<xs:complexType name="anydata">
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="skip" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="empty">
+		<xs:complexType/>
+	</xs:element>
 	<xs:simpleType name="path">
 		<xs:restriction base="xs:anyURI"/>
 	</xs:simpleType>
+	<xs:element name="settings">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="scope" type="xs:string" minOccurs="0"/>
+				<xs:element name="suite-pattern" type="xs:string" minOccurs="0"/>
+				<xs:element name="case-pattern" type="xs:string" minOccurs="0"/>
+				<xs:element name="export-to-files" type="xs:boolean" default="true"/>
+				<xs:element name="export-directory" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="xpaths-list-type">
+		<xs:sequence>
+			<xs:element name="xpath" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- test types -->
+	<xs:element name="test" type="fcu:test-type"/>
+	<xs:element name="test-xml" type="fcu:test-xml-type"/>
+	<xs:element name="test-case" type="fcu:test-case-type"/>
+	<xs:element name="test-suite" type="fcu:test-suite-type"/>
+	<xs:element name="test-suites" type="fcu:test-suites"/>
 	<xs:complexType name="test-type">
 		<xs:attribute name="name" type="xs:string"/>
 		<xs:attribute name="path" type="xs:string"/>
 	</xs:complexType>
 	<xs:complexType name="test-xml-type">
-		<xs:attribute name="name" type="xs:string"/>
-		<xs:attribute name="path" type="xs:string"/>
-		<xs:attribute name="expected-xml-filename" type="xs:string"/>
-		<xs:attribute name="ignored-xpaths-filename" type="xs:string"/>
-		<xs:attribute name="accept-more-fields-in-actual" type="xs:boolean"/>
+		<xs:complexContent>
+			<xs:extension base="fcu:test-type">
+				<xs:sequence>
+					<xs:element name="input-xml-filename" type="xs:string"/>
+					<xs:element name="expected-xml-filename" type="xs:string"/>
+					<xs:element name="tested-process-path" type="xs:string"/>
+					<xs:element name="ignored-xpaths" type="fcu:xpaths-list-type"/>
+					<xs:element name="accept-more-fields-in-actual" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
-	<xs:element name="test" type="fcu:test-type"/>
-	<xs:element name="test-xml" type="fcu:test-xml-type"/>
+	<xs:complexType name="test-case-type">
+		<xs:complexContent>
+			<xs:extension base="fcu:test-type">
+				<xs:sequence>
+					<xs:element ref="fcu:test" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="fcu:test-xml" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="test-suite-type">
+		<xs:complexContent>
+			<xs:extension base="fcu:test-type">
+				<xs:sequence>
+					<xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="fcu:test-case" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="test-suites">
+		<xs:sequence>
+			<xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- results -->
+	<xs:element name="test-error">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="fcue:unknown-error"/>
+				<xs:element ref="fcue:test-not-found-error"/>
+				<xs:element ref="fcue:timeout-error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="test-failure">
 		<xs:complexType>
 			<xs:sequence>
@@ -63,32 +139,9 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="test-case" type="fcu:test-case-type"/>
-	<xs:element name="test-suite" type="fcu:test-suite-type"/>
-	<xs:complexType name="anydata">
-		<xs:sequence>
-			<xs:any namespace="##any" processContents="skip" minOccurs="0"/>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:element name="test-success">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="duration">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="test" type="xs:unsignedLong"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
+		<xs:complexType/>
 	</xs:element>
-	<xs:complexType name="test-suite-collection">
-		<xs:sequence>
-			<xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:element name="test-suites" type="fcu:test-suite-collection"/>
 	<xs:element name="test-result">
 		<xs:complexType>
 			<xs:complexContent>
@@ -96,8 +149,10 @@
 					<xs:choice>
 						<xs:element ref="fcu:test-success"/>
 						<xs:element ref="fcu:test-failure"/>
+						<xs:element ref="fcu:test-error"/>
 					</xs:choice>
 					<xs:attribute name="datetime" type="xs:dateTime"/>
+					<xs:attribute name="duration" type="xs:float"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -138,39 +193,5 @@
 			</xs:sequence>
 			<xs:attribute name="datetime" type="xs:dateTime"/>
 		</xs:complexType>
-	</xs:element>
-	<xs:element name="settings">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="scope" type="xs:string" minOccurs="0"/>
-				<xs:element name="suite-pattern" type="xs:string" minOccurs="0"/>
-				<xs:element name="case-pattern" type="xs:string" minOccurs="0"/>
-				<xs:element name="export-to-files" type="xs:boolean" default="true"/>
-				<xs:element name="export-directory" type="xs:string"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:complexType name="test-case-type">
-		<xs:complexContent>
-			<xs:extension base="fcu:test-type">
-				<xs:sequence>
-					<xs:element ref="fcu:test" minOccurs="0" maxOccurs="unbounded"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="test-suite-type">
-		<xs:complexContent>
-			<xs:extension base="fcu:test-type">
-				<xs:sequence>
-					<xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element ref="fcu:test-case" minOccurs="0" maxOccurs="unbounded"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:element name="test-id" type="xs:string"/>
-	<xs:element name="empty">
-		<xs:complexType/>
 	</xs:element>
 </xs:schema>

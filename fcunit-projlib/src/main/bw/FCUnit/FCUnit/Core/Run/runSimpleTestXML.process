@@ -17,30 +17,62 @@
     limitations under the License.
 
 -->
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:bwu="java://org.windyroad.bwunit.CustomFunctions" xmlns:ns5="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns12="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:pfx="http://fastconnect.fr/fcunit.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="com/tibco/pe/commands" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:ns4="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:ns3="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://windyroad.org/bwunit-0.0.0.xsd">
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:bwu="java://org.windyroad.bwunit.CustomFunctions" xmlns:ns5="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns12="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns6="http://fastconnect.fr/fcunit-errors.xsd" xmlns:ns7="http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions" xmlns:pfx="http://fastconnect.fr/fcunit.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="com/tibco/pe/commands" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:ns4="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:ns3="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx3="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx2="http://windyroad.org/bwunit-0.0.0.xsd">
     <xsd:import namespace="http://fastconnect.fr/fcunit.xsd"/>
     <xsd:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
     <pd:name>FCUnit/Core/Run/runSimpleTestXML.process</pd:name>
     <pd:startName>Start</pd:startName>
-    <pd:startType ref="pfx:test"/>
+    <pd:startType ref="pfx:test-xml"/>
     <pd:startX>58</pd:startX>
-    <pd:startY>98</pd:startY>
+    <pd:startY>130</pd:startY>
     <pd:returnBindings>
         <pfx:test-result>
-            <xsl:if test="$Start/pfx:test/@name">
+            <xsl:if test="$Start/pfx:test-xml/@name">
                 <xsl:attribute name="name">
-                    <xsl:value-of select="$Start/pfx:test/@name"/>
+                    <xsl:value-of select="$Start/pfx:test-xml/@name"/>
                 </xsl:attribute>
             </xsl:if>
-            <xsl:if test="$Start/pfx:test/@path">
+            <xsl:if test="$Start/pfx:test-xml/@path">
                 <xsl:attribute name="path">
-                    <xsl:value-of select="$Start/pfx:test/@path"/>
+                    <xsl:value-of select="$Start/pfx:test-xml/@path"/>
                 </xsl:attribute>
             </xsl:if>
             <xsl:attribute name="datetime">
                 <xsl:value-of select="current-dateTime()"/>
             </xsl:attribute>
+            <xsl:attribute name="duration">
+                <xsl:value-of select="$Get-Completion-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted - $Get-Start-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted"/>
+            </xsl:attribute>
             <xsl:choose>
+                <xsl:when test="exists($TestError)">
+                    <pfx:test-error>
+                        <xsl:choose>
+                            <xsl:when test="exists($TestError/pfx:test-error/ns6:test-not-found-error)">
+                                <xsl:for-each select="$TestError/pfx:test-error/ns6:test-not-found-error">
+                                    <ns6:test-not-found-error>
+                                        <ns6:test-id>
+                                            <xsl:value-of select="ns6:test-id"/>
+                                        </ns6:test-id>
+                                    </ns6:test-not-found-error>
+                                </xsl:for-each>
+                            </xsl:when>
+                            <xsl:when test="exists($TestError/pfx:test-error/ns6:timeout-error)">
+                                <xsl:for-each select="$TestError/pfx:test-error/ns6:timeout-error">
+                                    <ns6:timeout-error>
+                                        <ns6:timeout>
+                                            <xsl:value-of select="ns6:timeout"/>
+                                        </ns6:timeout>
+                                    </ns6:timeout-error>
+                                </xsl:for-each>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:for-each select="$TestError/pfx:test-error/ns6:unknown-error">
+                                    <ns6:unknown-error/>
+                                </xsl:for-each>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </pfx:test-error>
+                </xsl:when>
                 <xsl:when test="$_error">
                     <pfx:test-failure>
                         <pfx:error-report>
@@ -77,13 +109,7 @@
                     </pfx:test-failure>
                 </xsl:when>
                 <xsl:otherwise>
-                    <pfx:test-success>
-                        <pfx:duration>
-                            <pfx:test>
-                                <xsl:value-of select="$Get-Completion-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted - $Get-Start-Time/ns2:output/ns2:GetProcessInstanceInfo[1]/ElapsedTimeSinceStarted"/>
-                            </pfx:test>
-                        </pfx:duration>
-                    </pfx:test-success>
+                    <pfx:test-success/>
                 </xsl:otherwise>
             </xsl:choose>
         </pfx:test-result>
@@ -91,7 +117,7 @@
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:test-result"/>
     <pd:endX>890</pd:endX>
-    <pd:endY>98</pd:endY>
+    <pd:endY>130</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1301560913578</pd:targetNamespace>
@@ -99,7 +125,7 @@
         <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
         <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
         <pd:x>141</pd:x>
-        <pd:y>98</pd:y>
+        <pd:y>130</pd:y>
         <config>
             <command>GetProcessInstanceInfo</command>
         </config>
@@ -116,8 +142,8 @@
     <pd:activity name="Get Completion Time">
         <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
         <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
-        <pd:x>720</pd:x>
-        <pd:y>202</pd:y>
+        <pd:x>752</pd:x>
+        <pd:y>138</pd:y>
         <config>
             <command>GetProcessInstanceInfo</command>
         </config>
@@ -133,34 +159,14 @@
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>569</pd:x>
-        <pd:y>98</pd:y>
+        <pd:y>130</pd:y>
         <config>
             <processName>/FCUnit/Templates/TestWithXMLInput.process</processName>
-            <processNameXPath>$Start/pfx:test/@path</processNameXPath>
+            <processNameXPath>$Start/pfx:test-xml/pfx:tested-process-path</processNameXPath>
         </config>
         <pd:inputBindings>
             <test>
-                <pfx:test-xml>
-                    <xsl:if test="$Start/pfx:test/@name">
-                        <xsl:attribute name="name">
-                            <xsl:value-of select="$Start/pfx:test/@name"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                    <xsl:if test="$Start/pfx:test/@path">
-                        <xsl:attribute name="path">
-                            <xsl:value-of select="$Start/pfx:test/@path"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                    <xsl:attribute name="expected-xml-filename">
-                        <xsl:value-of select="concat($Get-Project-Base-Dir/ns1:JavaMethodActivityOutput/MethodReturnValue,tib:substring-before-last($Start/pfx:test/@path, &quot;/&quot;), &quot;/expected-data.xml&quot;)"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="ignored-xpaths-filename">
-                        <xsl:value-of select="concat($Get-Project-Base-Dir/ns1:JavaMethodActivityOutput/MethodReturnValue,tib:substring-before-last($Start/pfx:test/@path, &quot;/&quot;), &quot;/ignored-xpaths.xml&quot;)"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="accept-more-fields-in-actual">
-                        <xsl:value-of select="&quot;true&quot;"/>
-                    </xsl:attribute>
-                </pfx:test-xml>
+                <xsl:copy-of select="$Start/pfx:test-xml"/>
                 <input-data>
                     <xsl:copy-of select="$Parse-XML/*"/>
                 </input-data>
@@ -171,7 +177,7 @@
         <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
         <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
         <pd:x>244</pd:x>
-        <pd:y>106</pd:y>
+        <pd:y>138</pd:y>
         <config>
             <ConstructDeclaredClass>true</ConstructDeclaredClass>
             <CacheConstructedClass>true</CacheConstructedClass>
@@ -192,7 +198,7 @@
         <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
         <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
         <pd:x>452</pd:x>
-        <pd:y>98</pd:y>
+        <pd:y>130</pd:y>
         <config>
             <inputStyle>text</inputStyle>
             <xsdVersion>default</xsdVersion>
@@ -211,17 +217,45 @@
         <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
         <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
         <pd:x>350</pd:x>
-        <pd:y>98</pd:y>
+        <pd:y>130</pd:y>
         <config>
             <encoding>text</encoding>
         </config>
         <pd:inputBindings>
             <ns12:ReadActivityInputClass>
                 <fileName>
-                    <xsl:value-of select="concat($Get-Project-Base-Dir/ns1:JavaMethodActivityOutput/MethodReturnValue,tib:substring-before-last($Start/pfx:test/@path, &quot;/&quot;), &quot;/input-data.xml&quot;)"/>
+                    <xsl:value-of select="$Start/pfx:test-xml/pfx:input-xml-filename"/>
                 </fileName>
             </ns12:ReadActivityInputClass>
         </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="TestError">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>576</pd:x>
+        <pd:y>322</pd:y>
+        <config>
+            <element ref="pfx:test-error"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:test-error>
+                <xsl:for-each select="$_error_Read-File/ActivityErrors/ns7:FileNotFoundException">
+                    <ns6:test-not-found-error>
+                        <ns6:test-id>
+                            <xsl:value-of select="$Start/pfx:test-xml/@path"/>
+                        </ns6:test-id>
+                    </ns6:test-not-found-error>
+                </xsl:for-each>
+            </pfx:test-error>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Failure">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>666</pd:x>
+        <pd:y>34</pd:y>
+        <config/>
+        <pd:inputBindings/>
     </pd:activity>
     <pd:transition>
         <pd:from>Start</pd:from>
@@ -239,7 +273,7 @@
     </pd:transition>
     <pd:transition>
         <pd:from>TestWithXMLInput</pd:from>
-        <pd:to>End</pd:to>
+        <pd:to>Failure</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>error</pd:conditionType>
@@ -279,11 +313,32 @@
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>TestError</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TestError</pd:from>
+        <pd:to>Get Completion Time</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Failure</pd:from>
+        <pd:to>Get Completion Time</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
     <pd:label>
         <pd:name>Label</pd:name>
         <pd:description>Lecture du fichier XML d'entrée à donner au process à tester</pd:description>
-        <pd:x>413</pd:x>
-        <pd:y>184</pd:y>
+        <pd:x>253</pd:x>
+        <pd:y>216</pd:y>
         <pd:width>187</pd:width>
         <pd:height>48</pd:height>
         <pd:fontColor>-16777216</pd:fontColor>

@@ -97,20 +97,4 @@ public class CustomFunctions {
 		return m.matches();
 	}
 
-	/**
-	 * @deprecated
-	 * 
-	 * @param path
-	 * @return
-	 */
-	public static boolean isXMLTest(String path) {
-		RepoAgent ra = Engine.getRepoAgent();
-		String uri = ra.getAbsoluteURIFromProjectRelativeURI("");
-		// le test est considéré "XML" s'il y a un fichier input-data.xml dans
-		// le même répertoire.
-		
-		return (new File(uri + path + "/input-data.xml")).exists();
-		// TODO : faire ça plus proprement...
-	}
-
 }

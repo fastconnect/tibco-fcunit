@@ -74,6 +74,9 @@ public class BWResource {
 		if (basename.endsWith(".process")) {
 			basename = basename.substring(0, basename.lastIndexOf('.'));
 		}
+		if (basename.endsWith(".tasklist")) {
+			basename = basename.substring(0, basename.lastIndexOf('.'));
+		}
 		
 		return basename;
 	}
@@ -86,4 +89,7 @@ public class BWResource {
 		return path;
 	}
 
+	protected File getFile() {
+		return new File(ProjectBaseDir.getProjectBaseDir(), this.path);
+	}
 }

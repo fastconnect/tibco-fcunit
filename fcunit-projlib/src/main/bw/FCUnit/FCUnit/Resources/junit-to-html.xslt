@@ -220,12 +220,14 @@
 				</xsl:if>
 				<xsl:apply-templates select="./testcase" mode="print.test"/>
 			</table>
+			<!--
             <div class="Properties">
                 <a>
 			        <xsl:attribute name="href">javascript:displayProperties('<xsl:value-of select="@package"/>.<xsl:value-of select="@name"/>');</xsl:attribute>
 			        Properties &gt;&gt;
 			    </a>
             </div>
+            -->
 			<p/>
 			
 			<a href="#top">Back to top</a>
@@ -245,13 +247,13 @@
 			<th>Failures</th>
 			<th>Errors</th>
 			<th>Success rate</th>
-			<th>Time</th>
+			<th>Time (s)</th>
 		</tr>
 		<tr valign="top">
 			<xsl:attribute name="class">
 				<xsl:choose>
-					<xsl:when test="$failureCount &gt; 0">Failure</xsl:when>
 					<xsl:when test="$errorCount &gt; 0">Error</xsl:when>
+					<xsl:when test="$failureCount &gt; 0">Failure</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
 			<td><xsl:value-of select="$testCount"/></td>
@@ -309,7 +311,7 @@
 		<th>Tests</th>
 		<th>Errors</th>
 		<th>Failures</th>
-		<th nowrap="nowrap">Time(s)</th>
+		<th nowrap="nowrap">Time (s)</th>
 	</tr>
 </xsl:template>
 
@@ -320,7 +322,7 @@
 		<th>Tests</th>
 		<th>Errors</th>
 		<th>Failures</th>
-		<th nowrap="nowrap">Time(s)</th>
+		<th nowrap="nowrap">Time (s)</th>
 	</tr>
 </xsl:template>
 
@@ -330,7 +332,7 @@
 		<th>Name</th>
 		<th>Status</th>
 		<th width="80%">Type</th>
-		<th nowrap="nowrap">Time(s)</th>
+		<th nowrap="nowrap">Time (s)</th>
 	</tr>
 </xsl:template>
 
@@ -341,8 +343,8 @@
 		<!-- set a nice color depending if there is an error/failure -->
 		<xsl:attribute name="class">
 			<xsl:choose>
-				<xsl:when test="@failures[.&gt; 0]">Failure</xsl:when>
 				<xsl:when test="@errors[.&gt; 0]">Error</xsl:when>
+				<xsl:when test="@failures[.&gt; 0]">Failure</xsl:when>
 			</xsl:choose>
 		</xsl:attribute>
 	
@@ -363,7 +365,8 @@
 	<tr valign="top">
 		<xsl:attribute name="class">
 			<xsl:choose>
-				<xsl:when test="failure | error">Error</xsl:when>
+				<xsl:when test="failure">Failure</xsl:when>
+				<xsl:when test="error">Error</xsl:when>
 			</xsl:choose>
 		</xsl:attribute>
 		<td><xsl:value-of select="@name"/></td>
