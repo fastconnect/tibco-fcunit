@@ -1,0 +1,215 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>fcunit-parent</artifactId>
+		<groupId>fr.fastconnect.factory.tibco.bw.fcunit</groupId>
+		<version>2.3.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>fcunit-plugin</artifactId>
+	<packaging>maven-plugin</packaging>
+
+	<name>FCUnit - Unit testing for TIBCO BusinessWorks - Maven plugin</name>
+
+	<properties>
+		<maven.site.skip>false</maven.site.skip>
+		<maven.site.deploy.skip>false</maven.site.deploy.skip>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+			<artifactId>bw-maven-plugin</artifactId>
+			<version>2.3.3-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<!-- Not needed for execution -->
+			<scope>provided</scope>
+		</dependency>
+		<!-- generated help mojo has a dependency to plexus-utils -->
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.2.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.rendersnake</groupId>
+			<artifactId>rendersnake</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<configuration>
+					<goalPrefix>fcunit</goalPrefix>
+				</configuration>
+			</plugin>
+
+			<!-- FCUnit WSDL import -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-wsdl</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../fcunit-projlib/src/main/bw/FCUnit/FCUnit/WSDLs</directory>
+									<includes>
+										<include>FCUnit-concrete.wsdl</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>com.sun.xml.ws</groupId>
+						<artifactId>jaxws-tools</artifactId>
+						<version>2.2.10</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>wsdl-to-java</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<extension>true</extension>
+							<packageName>fr.fastconnect.factory.tibco.bw.fcunit.jaxws</packageName>
+							<quiet>true</quiet>
+
+							<wsdlDirectory>${project.build.outputDirectory}</wsdlDirectory>
+							<wsdlFiles>
+								<wsdlFile>FCUnit-concrete.wsdl</wsdlFile>
+							</wsdlFiles>
+							<wsdlLocation>/FCUnit-concrete.wsdl</wsdlLocation>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<compilerArguments>
+						<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+							<silent>true</silent>
+							<artifactItems>
+								<artifactItem>
+									<groupId>javax.xml.bind</groupId>
+									<artifactId>jaxb-api</artifactId>
+									<version>2.2.12</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>javax.xml.ws</groupId>
+									<artifactId>jaxws-api</artifactId>
+									<version>2.2.11</version>
+									<type>jar</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>site-local</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<local.site.suffix>${project.artifactId}</local.site.suffix>
+			</properties>
+			<distributionManagement>
+				<site>
+					<id>fc.local</id>
+					<url>dav:${repositorySiteURL}</url>
+				</site>
+			</distributionManagement>
+		</profile>
+		<profile>
+			<id>site-github</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<repositorySiteURL>git@github.com/fastconnect/tibco-factory.git</repositorySiteURL>
+				<repositorySiteDisplayURL>http://fastconnect.github.io/tibco-factory/${github.site.path}</repositorySiteDisplayURL>
+				<rootSiteDisplayURL>http://fastconnect.github.io/tibco-factory/${github.site.prefix}</rootSiteDisplayURL>
+				<github.site.suffix>/${project.artifactId}</github.site.suffix>
+			</properties>
+			<distributionManagement>
+				<site>
+					<id>fc.github</id>
+					<url>gitsite:${repositorySiteURL}/${github.site.path}</url>
+				</site>
+			</distributionManagement>
+		</profile>
+	</profiles>
+
+	<scm>
+		<url>https://github.com/fastconnect/tibco-fcunit</url>
+		<connection>scm:git:git://github.com/fastconnect/tibco-fcunit.git</connection>
+		<developerConnection>scm:git:git@github.com:fastconnect/tibco-fcunit.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<url>${repositorySiteDisplayURL}</url>
+
+</project>

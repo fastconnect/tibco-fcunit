@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <tasklist>
+        <designer>
+            <lockedProperties>
+                <locked>
+                    <properties>progress,actualWorkTimeHours,actualCompletionDate,actualStartDate,plannedStartDate,plannedWorkTimeHours,plannedCompletionDate,completed</properties>
+                </locked>
+            </lockedProperties>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
+        <subject>MyXMLTest</subject>
+        <associatedResource isRef="true">/Tests/DummyProcess.process</associatedResource>
+    </tasklist>
+</Repository:repository>

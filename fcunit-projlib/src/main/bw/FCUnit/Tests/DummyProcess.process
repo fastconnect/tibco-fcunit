@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>Tests/DummyProcess.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="input">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="key" type="xsd:string"/>
+                    <xsd:element name="option" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>58</pd:startX>
+    <pd:startY>98</pd:startY>
+    <pd:returnBindings>
+        <output>
+            <xsl:choose>
+                <xsl:when test="exists($Start/input/option)">
+                    <editedKey>
+                        <xsl:value-of select="concat($Start/input/key, $Start/input/option)"/>
+                    </editedKey>
+                </xsl:when>
+                <xsl:otherwise>
+                    <editedKey>
+                        <xsl:value-of select="$Start/input/key"/>
+                    </editedKey>
+                </xsl:otherwise>
+            </xsl:choose>
+        </output>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="output">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="editedKey" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>410</pd:endX>
+    <pd:endY>98</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1433937428454</pd:targetNamespace>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>255</pd:x>
+        <pd:y>290</pd:y>
+        <config>
+            <element>
+                <xsd:element name="testsuites">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="testsuite" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="testcase" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:choice>
+                                                        <xsd:element name="failure">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence/>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                        <xsd:element name="error">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence/>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:choice>
+                                                    <xsd:element name="system-out">
+                                                        <xsd:complexType>
+                                                            <xsd:sequence/>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                    <xsd:element name="system-err">
+                                                        <xsd:complexType>
+                                                            <xsd:sequence/>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="system-out">
+                                            <xsd:complexType>
+                                                <xsd:sequence/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="system-err">
+                                            <xsd:complexType>
+                                                <xsd:sequence/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
