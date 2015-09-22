@@ -20,23 +20,20 @@ import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Holder;
 
 import com.sun.xml.ws.client.ClientTransportException;
 
-import fr.fastconnect.factory.tibco.bw.fcunit.jaxws.Empty;
 import fr.fastconnect.factory.tibco.bw.fcunit.jaxws.FCUnit;
 import fr.fastconnect.factory.tibco.bw.fcunit.jaxws.FCUnit_Service;
 import fr.fastconnect.factory.tibco.bw.fcunit.jaxws.Settings;
-import fr.fastconnect.factory.tibco.bw.fcunit.FCUnitService;
-import fr.fastconnect.factory.tibco.bw.fcunit.FCUnit_Proxy;
 import fr.fastconnect.factory.tibco.bw.maven.bwengine.BWService;
 import fr.fastconnect.factory.tibco.bw.maven.bwengine.ServiceAgentInEngine;
+
 /**
  * <p>
  * FCUnit Service Agent representation.
  * </p>
- * 
+ *
  * @author Mathieu Debove
  *
  */
@@ -50,12 +47,12 @@ class FCUnit_Proxy implements BWService {
 
 	@Override
 	public void isStarted() {
-		fcUnit.isStarted(new Holder<Empty>());
+		fcUnit.isStarted();
 	}
 
 	@Override
 	public void stopEngine() {
-		fcUnit.stopEngine(new Holder<Empty>());
+		fcUnit.stopEngine();
 	}
 
 	public void runAllTests(Settings settings) {
@@ -87,14 +84,12 @@ public class FCUnitService extends ServiceAgentInEngine<FCUnit_Proxy> {
 	}
 
 	public boolean runAllTests(Settings settings) {
-		FCUnit_Proxy service = getService();
-
-		if (service == null) {
+		if (fcUnit == null) {
 			return false;
 		}
 
 		try {
-			service.runAllTests(settings);
+			fcUnit.runAllTests(settings);
 		} catch (ClientTransportException e) {
 			return false; // the isStarted method in the WebService is used to ping
 		}

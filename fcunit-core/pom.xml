@@ -12,11 +12,6 @@
 
 	<name>FCUnit - Unit testing for TIBCO BusinessWorks - Java Library</name>
 
-	<properties>
-		<maven.site.skip>false</maven.site.skip>
-		<maven.site.deploy.skip>false</maven.site.deploy.skip>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -31,11 +26,13 @@
 			<groupId>com.tibco.bw</groupId>
 			<artifactId>engine</artifactId>
 			<version>5.9</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.bw</groupId>
 			<artifactId>xdata</artifactId>
 			<version>5.9</version>
+			<scope>provided</scope>
 		</dependency>
  		<dependency>
 			<groupId>xerces</groupId>

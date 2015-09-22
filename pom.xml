@@ -50,6 +50,7 @@
 		<module>fcunit-core</module>
 		<module>fcunit-plugin</module>
 		<module>fcunit-projlib</module>
+		<module>src/it</module>
 	</modules>
 
 	<ciManagement>

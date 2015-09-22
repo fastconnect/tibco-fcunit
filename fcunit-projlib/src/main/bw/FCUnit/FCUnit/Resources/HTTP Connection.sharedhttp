@@ -40,6 +40,6 @@
                 <PropertyDefaultValue>60000</PropertyDefaultValue>
             </row>
         </HttpConnectionProperties>
-        <Port>9099</Port>
+        <Port>%%FCUnit/HTTP-service-port%%</Port>
     </config>
 </ns0:httpSharedResource>

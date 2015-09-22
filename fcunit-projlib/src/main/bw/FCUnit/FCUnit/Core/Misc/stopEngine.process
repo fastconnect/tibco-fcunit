@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://fastconnect.fr/fcunit.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="com/tibco/pe/commands" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pfx="http://fastconnect.fr/fcunit-abstract">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://fastconnect.fr/fcunit.xsd" xmlns:ns="com/tibco/pe/commands" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pfx="http://fastconnect.fr/fcunit-abstract">
     <wsdl:import namespace="http://fastconnect.fr/fcunit-abstract" location="/FCUnit/WSDLs/FCUnit-abstract.wsdl"/>
     <pd:name>FCUnit/Core/Misc/stopEngine.process</pd:name>
     <pd:startName>Start</pd:startName>
-    <pd:startType wsMsgRef="pfx:null-msg"/>
+    <pd:startType wsMsgRef="pfx:stop-in"/>
     <pd:startX>58</pd:startX>
     <pd:startY>130</pd:startY>
     <pd:returnBindings>
-        <xsl:copy-of select="$Start/pfx:null-msg"/>
+        <xsl:for-each select="$Start/pfx:stop-in">
+            <pfx:stop-out/>
+        </xsl:for-each>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
-    <pd:endType wsMsgRef="pfx:null-msg"/>
+    <pd:endType wsMsgRef="pfx:stop-out"/>
     <pd:endX>346</pd:endX>
     <pd:endY>130</pd:endY>
     <pd:errorSchemas/>
